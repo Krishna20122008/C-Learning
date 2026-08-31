@@ -20,11 +20,11 @@ int main(){
     int finalMarks = (classTest*0.12)+(Tutorial*0.12)+(se*0.16)+(lpw*0.2)+(see*0.4);
 
     if(finalMarks<40) printf("Fail");
-    else if(finalMarks>40 && finalMarks<51) printf("C");
-    else if(finalMarks>=51 && finalMarks<61) printf("C+");
-    else if(finalMarks>=61 && finalMarks<71) printf("B");
-    else if(finalMarks>=71 && finalMarks<81) printf("B+");
-    else if(finalMarks>=81 && finalMarks<91) printf("A");
-    else if(finalMarks>=91 && finalMarks<=100) printf("A+");
+    else if(finalMarks>40 && finalMarks<51) printf("Grade: C");
+    else if(finalMarks>=51 && finalMarks<61) printf("Grade: C+");
+    else if(finalMarks>=61 && finalMarks<71) printf("Grade: B");
+    else if(finalMarks>=71 && finalMarks<81) printf("Grade: B+");
+    else if(finalMarks>=81 && finalMarks<91) printf("Grade: A");
+    else if(finalMarks>=91 && finalMarks<=100) printf("Grade: A+");
     else printf("Wrong input, Enter the marks out of 100");
 }
