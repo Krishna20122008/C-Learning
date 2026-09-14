@@ -27,5 +27,5 @@ int main(){
     }
     else salary = 44*rate + (hour-44)*2*rate;
     
-    printf("The final salary is %.2f \n", salary);
+    printf("The final salary is %f \n", salary);
 }
