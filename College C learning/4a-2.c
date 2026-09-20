@@ -4,22 +4,12 @@ int main(){
     printf("Enter the no. of rows: ");
     scanf("%d", &n);
 
-    for(int i = 0; i < n; i++){
-        int j;
-        if((i) % 2 != 0){
-            j = 1;
-            for(; j <= i + 1; j++){
-                if(j % 2 != 0) printf("1");
-                else printf("0");
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++) {
+                printf("%d", (i + j + 1) % 2);
             }
+            printf("\n");
         }
-        else{
-            j = 0;
-            for(; j < i + 1; j++){
-                if(j % 2 != 0) printf("0");
-                else printf("1");
-            }
-        }
-        printf("\n");
-    }
+
+        return 0;
 }
