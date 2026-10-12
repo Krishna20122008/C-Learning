@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<limits.h>
 int main(){
     int n;
     printf("Enter The size of array: ");
@@ -9,7 +10,7 @@ int main(){
     for(int i=0; i<n; i++){
         scanf("%d", &arr[i]);
     }
-    int max = 0;
+    int max = INT_MIN;
     int idx;
     for(int i=0; i<n; i++){
         if(arr[i]>max){
