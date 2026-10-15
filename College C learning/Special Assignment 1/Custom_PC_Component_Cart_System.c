@@ -18,7 +18,7 @@ void Catalogue(int category){
             printf("\n Available RAM Kits \n");
             printf("1. 16GB (8x2) DDR5 5200MHz - Rs. 24,500\n");
             printf("2. 32GB (16x2) DDR5 6000MHz- Rs. 47,000\n");
-            printf("1. 64GB (32x2) DDR5 6000MHz - Rs. 1,25,000\n");
+            printf("3. 64GB (32x2) DDR5 6000MHz - Rs. 1,25,000\n");
             break;
         case 4:
             printf("\n Available Storage (NVMe SSDs) \n");
@@ -65,6 +65,47 @@ void Catalogue(int category){
             default: return 0;
         }
     }
+    
+    long getComponentPrice(int category, int component){
+        switch(category){
+            case 1: // CPU
+                switch(component){
+                    case 1: return 18000;
+                    case 2: return 45000;
+                    case 3: return 42000;
+                    default: return 0;
+                }
+            case 2: // GPU
+                switch(component){
+                    case 1: return 34740;
+                    case 2: return 129299;
+                    case 3: return 107000;
+                    default: return 0;
+                }
+            case 3: // RAM
+                switch(component){
+                    case 1: return 24500;
+                    case 2: return 47000;
+                    case 3: return 125000;
+                    default: return 0;
+                }
+            case 4: // SSD
+                switch(component){
+                    case 1: return 18000;
+                    case 2: return 36000;
+                    default: return 0;
+                }
+            case 5: // PSU
+                switch(component){
+                    case 1: return 3800;
+                    case 2: return 6500;
+                    case 3: return 10500;
+                    default: return 0;
+                }
+            default: return 0;
+        }
+    }
+
 int main() {
     int category;
     int component;
@@ -72,9 +113,15 @@ int main() {
     int cpuPower = 0;
     int gpuPower = 0;
     int psuPower = 0;
+    int psuPrice = 0;
+    int gpuPrice = 0;
+    int cpuPrice = 0;
+    int ramPrice = 0;
+    int ssdPrice = 0;
     int systemBasePower = 50;
     int totalPowerDraw = 0;
     int recommendedPSUPower = 0;
+    int subTotal = 0;
 
     int selectedParts[6] = {0};
 
@@ -87,42 +134,60 @@ int main() {
     printf("4. Storage (SSD)\n");
     printf("5. Power Supply (PSU)\n");
 
-    printf("\nEnter the category number of the PC Component you want to buy: ");
-
-    scanf("%d", &category);
-
-    printf("\nYou selected category number: %d\n", category);
-
+    
     do{
+        printf("\nEnter the category number of the PC Component you want to buy: ");
+    
+        scanf("%d", &category);
+    
+        printf("\nYou selected category number: %d\n", category);
+
         if(category>=1 && category<=5){
             Catalogue(category);
-            printf("Enter the component number that you want to buy: ");
-            scanf("%d", component);
+
+            printf("\nEnter the component number that you want to buy: ");
+            scanf("%d", &component);
 
             selectedParts[category] = component;
-            printf("Component %d of category %d is stored in cart.\n", component, category);
+            printf("Component %d of category %d is stored in cart.\n\n", component, category);
 
             if(category == 1){
                 cpuPower = getComponentWattage(1, component);
+                cpuPrice = getComponentPrice(1, component);
                 printf("The selected CPU is %d and its power consumption is %dW.\n", component, cpuPower);
+                printf("Its price is Rs. %d\n\n", cpuPrice);
             }
             else if(category == 2){
                 gpuPower = getComponentWattage(2, component);
+                gpuPrice = getComponentPrice(2, component);
                 printf("The selected GPU is %d and its power consumption is %dW.\n", component, gpuPower);
+                printf("Its price is Rs. %d\n\n", gpuPrice);
+            }
+            else if(category == 3){
+                ramPrice = getComponentPrice(3, component);
+                printf("The selected RAM is %d and its price is Rs. %d\n\n", component, ramPrice);
+            }
+            else if(category == 4){
+                ssdPrice = getComponentPrice(4, component);
+                printf("The selected SSD is %d and its price is Rs. %d\n\n", component, ssdPrice);
             }
             else if(category == 5){
                 psuPower = getComponentWattage(5, component);
+                psuPrice = getComponentPrice(5, component);
                 printf("The selected PSU is %d and its power rating is %dW.\n", component, psuPower);
+                printf("Its price is Rs. %d\n\n", psuPrice);
             }
-            else printf("Stored component is %d and category is %d\n");
+            else printf("Stored component is %d and category is %d\n", component, category);
         }
 
         else{
             printf("Enter the correct category between 1 and 5");
         }
+
         printf("Do you want to select another component? (y/n): ");
-        scanf("%c", &keepGoing);
-    }while(keepGoing == "y" || keepGoing == "Y");
+        scanf(" %c", &keepGoing);
+
+    } while(keepGoing == 'y' || keepGoing == 'Y');
 
     totalPowerDraw = cpuPower + gpuPower + systemBasePower;
 
@@ -130,4 +195,42 @@ int main() {
     else if(totalPowerDraw <= 520) recommendedPSUPower = 650;
     else if(totalPowerDraw <= 680) recommendedPSUPower = 850;
     else recommendedPSUPower = 1000;
+
+    printf("\n\n");
+    printf("Power and PSU Analysis\n\n");
+    printf("CPU Power Draw       : %d W\n", cpuPower);
+    printf("GPU Power Draw       : %d W\n", gpuPower);
+    printf("Base System Overhead : %d W\n\n", systemBasePower);
+    printf("Total Power Draw     : %d W\n", totalPowerDraw);
+    printf("Recommended PSU      : %d W or higher\n", recommendedPSUPower);
+    printf("Selected PSU Capacity: %d W\n", psuPower);
+
+    if (psuPower == 0) {
+        printf("You have not selected a PSU yet!\n");
+    } 
+    else if (psuPower < totalPowerDraw) {
+        printf("Selected PSU (%dW) is less than peak system draw (%dW)!\n", psuPower, totalPowerDraw);
+        printf("Your system will shut down under full load. Upgrade immediately.\n");
+    } 
+    else if (psuPower < recommendedPSUPower) {
+        printf("Selected PSU (%dW) meets bare minimum draw (%dW),\n", psuPower, totalPowerDraw);
+        printf("But lacks the recommended safety margin for power spikes.\n");
+    } 
+    else {
+        printf("Selected PSU (%dW) provides stable, efficient power with safe headroom.\n", psuPower);
+    }
+
+    for(int catgry = 1; catgry <= 5; catgry++){
+        int choice = selectedParts[catgry];
+
+        if(choice!=0){
+            long itemPrice = getComponentPrice(catgry, choice);
+            subTotal += itemPrice;
+        }
+    }
+
+    float gst = subTotal * 18 / 100;
+    float grandTotal = subTotal + gst;
+
+    printf("\n\nYour Grand Total is: Rs. %.2f", grandTotal);
 }
