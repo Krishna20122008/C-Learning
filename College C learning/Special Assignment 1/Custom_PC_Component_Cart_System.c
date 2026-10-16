@@ -236,7 +236,7 @@ int main() {
             }
         }
         else {
-            printf("[!] Please enter a valid category between 1 and 5.\n");
+            printf("Please enter a valid category between 1 and 5.\n");
         }
 
         printf("Do you want to select another component? (y/n): ");
