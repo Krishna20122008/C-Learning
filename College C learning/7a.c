@@ -4,9 +4,15 @@ int notes(int n) {
     int denominations[] = {100, 50, 20, 10, 5, 2, 1};
     int count = 0;
 
-    for(int i = 0; i < 7; i++) {
-        count += n / denominations[i];
-        n = n % denominations[i];
+    for (int i = 0; i < 7; i++) {
+        int numberOfNotes = n / denominations[i];
+
+        if (numberOfNotes > 0) {
+            printf("Notes of %d: %d\n", denominations[i], numberOfNotes);
+        }
+
+        count += numberOfNotes;
+        n %= denominations[i];
     }
 
     return count;
